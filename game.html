@@ -1,0 +1,2012 @@
+<html>
+	<head>
+		<title>Trick the Cat</title>
+	</head>
+	<body>
+		<p align="center">
+			<canvas id="canvas" tabindex="0" width="630" height="690" style="image-rendering: -webkit-optimize-contrast !important;"></canvas>
+		</p>
+		<script src="file:///C:/Users/Ali-Laptop/Desktop/Web%20Games%20Programing/Trick%20The%20Thief/Versions/bla.txt"></script>
+		<script>
+			var sketch = function(processing) {
+				with (processing) {
+					size(630, 690);
+					frameRate(50);
+					angleMode = "radians";				
+
+
+
+
+
+/**********
+*Variables*
+**********/
+
+var
+
+play1 = loadImage('Drawings/buttons/play1.png'),
+play2 = loadImage('Drawings/buttons/play2.png'),
+help1 = loadImage('Drawings/buttons/help1.png'),
+help2 = loadImage('Drawings/buttons/help2.png'),
+achv1 = loadImage('Drawings/buttons/achevement1.png'),
+achv2 = loadImage('Drawings/buttons/achevement2.png'),
+back1 = loadImage('Drawings/buttons/back1.png'),
+back2 = loadImage('Drawings/buttons/back2.png'),
+edit1 = loadImage('Drawings/buttons/edit1.png'),
+edit2 = loadImage('Drawings/buttons/edit2.png'),
+reset1 = loadImage('Drawings/buttons/reset1.png'),
+reset2 = loadImage('Drawings/buttons/reset2.png'),
+quit1 = loadImage('Drawings/buttons/quit1.png'),
+quit2 = loadImage('Drawings/buttons/quit2.png'),
+x1 = loadImage('Drawings/menu/1.png'),
+x4 = loadImage('Drawings/menu/2.png'),
+x2 = loadImage('Drawings/menu/3.png'),
+finishB = loadImage('Drawings/menu/finish.png'),
+pauseB = loadImage('Drawings/menu/pause.png'),
+startB = loadImage('Drawings/menu/startB.png'),
+menuArt = loadImage('Drawings/menu/menu.png'),
+raccoon = loadImage('Drawings/charactars/raccoon.png'),
+pirate = loadImage('Drawings/charactars/pirate.png'),
+alien = loadImage('Drawings/charactars/alien.png'),
+thief = loadImage('Drawings/charactars/thief.png'),
+penguin = loadImage('Drawings/charactars/penguin.png'),
+robot = loadImage('Drawings/charactars/robot.png'),
+invisable = loadImage('Drawings/charactars/invisable.png'),
+zebra = loadImage('Drawings/charactars/zebra.png'),
+monster = loadImage('Drawings/charactars/monster.png'),
+ninja = loadImage('Drawings/charactars/ninja.png'),
+easy1 = loadImage('Drawings/squares/easy1.png'),
+mid1 = loadImage('Drawings/squares/mid1.png'),
+hard1 = loadImage('Drawings/squares/hard1.png'),
+jailL = loadImage('Drawings/squares/jailL.png'),
+jailM = loadImage('Drawings/squares/jailM.png'),
+jailS = loadImage('Drawings/squares/jailS.png'),
+safeL = loadImage('Drawings/squares/safeL.png'),
+safeM = loadImage('Drawings/squares/safeM.png'),
+safeS = loadImage('Drawings/squares/safeS.png'),
+rockS = loadImage('Drawings/squares/rockS.png'),
+rockM = loadImage('Drawings/squares/rockM.png'),
+rockL = loadImage('Drawings/squares/rockL.png'),
+leafS = loadImage('Drawings/squares/leafS.png'),
+leafM = loadImage('Drawings/squares/leafM.png'),
+leafL = loadImage('Drawings/squares/leafL.png'),
+skinS = loadImage('Drawings/squares/skinS.png'),
+skinM = loadImage('Drawings/squares/skinM.png'),
+skinL = loadImage('Drawings/squares/skinL.png'),
+mudS = loadImage('Drawings/squares/mudS.png'),
+mudM = loadImage('Drawings/squares/mudM.png'),
+mudL = loadImage('Drawings/squares/mudL.png'),
+startArt = loadImage('Drawings/scenes/start.png'),
+helpArt = loadImage('Drawings/scenes/help.png'),
+achevemntArt = loadImage('Drawings/scenes/achevement.png'),
+charactarsArt = loadImage('Drawings/scenes/charactars.png'),
+endArt = loadImage('Drawings/scenes/end.png'),
+quart1 = loadImage('Drawings/scenes/quart1.png'),
+quart2 = loadImage('Drawings/scenes/quart2.png'),
+creditsArt = loadImage('Drawings/miscellaneous/credits.png'),
+off = loadImage('Drawings/miscellaneous/off.png'),
+on = loadImage('Drawings/miscellaneous/on.png'),
+choseTheme = loadImage('Drawings/miscellaneous/theme.png'),
+lock1 = loadImage('Drawings/miscellaneous/lock1.png'),
+lock2 = loadImage('Drawings/miscellaneous/lock2.png'),
+main = loadImage('Drawings/miscellaneous/main.png'),
+achvArt = loadImage('Drawings/miscellaneous/achev.png'),
+diffArt = loadImage('Drawings/miscellaneous/difficulty.png'),
+myEasy = loadImage('Drawings/scenes/myeasy.png'),
+myMid = loadImage('Drawings/scenes/mymid.png'),
+myHard = loadImage('Drawings/scenes/myhard.png'),
+
+squ1Color = easy1,
+squ2Color = color(180, 255, 180),
+jailSize,safeSize,
+
+a = 10,
+z = 100,
+W = 0,
+X = 0,
+Y = -348,
+y = 0,
+
+inout,
+cuts,
+go = false,
+newAch = false,
+cred = 0,
+
+diff = false,
+block = false,
+allCharac = false,
+firstPlay = true,
+hideMap = true,
+showScore = true,
+showMyMap = false,
+lod = false,
+
+scene = "load",
+rescene,
+achScene,
+
+theme = "none",
+themeLock = true,
+charac = 7,
+changeSpeed = 16,
+score = 0,
+aniScore = 0,
+clicks = 0,
+intr = 0,
+
+grid,
+step,
+p,
+siz,
+catX,
+catY,
+
+backBot, newAchv, intro, skip,
+achvClick = [0,0,0],
+characts = [],
+achevs = [],
+squares = [],
+look = [],
+path = [];
+
+
+
+/****************
+*Object Oriented*
+****************/
+
+/**********Buttons**********/
+
+var Button = function(config){
+	this.size = config.size || 150;
+	this.img1 = config.img1;
+	this.img2 = config.img2;
+	this.v1 = [config.x, config.y];
+	this.v2 = [this.v1[0], this.v1[1]+this.size];
+	this.v3 = [this.v1[0]+this.size/2, this.v1[1]+this.size/2];
+	this.v4 = [this.v1[0]-this.size/2, this.v1[1]+this.size/2];
+	this.onClick = config.onClick;
+};
+
+
+Button.prototype.draw = function() {
+	if (mouseY+mouseX > this.v1[1]+this.v1[0] &&
+		mouseY+mouseX < this.v2[1]+this.v2[0] &&
+		mouseX-mouseY < this.v1[0]-this.v1[1] &&
+		mouseY-mouseX < this.v2[1]-this.v2[0])
+	{
+		image(this.img2, this.v4[0], this.v1[1]);
+	} else {
+		image(this.img1, this.v4[0], this.v1[1]);
+	}
+};
+
+Button.prototype.mouseClick = function() {
+	if (mouseY+mouseX > this.v1[1]+this.v1[0] &&
+		mouseY+mouseX < this.v2[1]+this.v2[0] &&
+		mouseX-mouseY < this.v1[0]-this.v1[1] &&
+		mouseY-mouseX < this.v2[1]-this.v2[0])
+	{
+		this.onClick();
+	}
+};
+
+
+/**********Characters**********/
+
+var Charact = function(config){
+	Button.call(this, config);
+	this.lock = config.lock || 0;
+	this.score = config.score;
+	this.msg = config.msg;
+	this.m = 0;
+	this.z = 1;
+};
+Charact.prototype = Object.create(Button.prototype);
+
+Charact.prototype.draw = function() {
+	if (this.lock === 0) {
+		
+		textSize(16);
+		fill(0,0,0,200);
+		quad(this.v1[0], this.v1[1], this.v3[0], this.v3[1],
+			this.v2[0], this.v2[1], this.v4[0], this.v4[1]);
+		fill(255);
+		text(this.msg, this.v1[0]-47, this.v1[1]+85);
+		
+		image(lock2, this.v1[0]-13, this.v3[1]-55);
+		image(lock1, this.v1[0]-13, this.v3[1]-35);
+		
+	} else {}
+};
+
+Charact.prototype.mouseClick = function(i) {
+	if (mouseY+mouseX > this.v1[1]+this.v1[0] &&
+		mouseY+mouseX < this.v2[1]+this.v2[0] &&
+		mouseX-mouseY < this.v1[0]-this.v1[1] &&
+		mouseY-mouseX < this.v2[1]-this.v2[0] &&
+		this.lock === 2) {
+		charac = i+1;
+		backBot.onClick();
+	}
+};
+
+
+/**********Achevements**********/
+
+var Achev = function(config){
+	this.x = config.x;
+	this.y = config.y;
+	this.height = config.height || 100;
+	this.lock = 0;
+	this.msg = config.msg;
+};
+
+
+Achev.prototype.draw = function() {
+	if (this.lock === 0) {
+		
+		textSize(16);
+		fill(0,0,0,250);
+		rect(X+this.x, this.y, 180, this.height);
+		fill(255);
+		text(this.msg, X+this.x+52, this.y+(this.height/2-20));
+		
+		image(lock2, X+this.x+13, this.y+this.height/2-32, 40, 48);
+		image(lock1, X+this.x+13, this.y+this.height/2-2, 40, 30);
+		
+	} else if (this.x < mouseX && mouseX < this.x+180 &&
+		this.y < mouseY && mouseY < this.y+this.height && this.height === 100) {
+			textSize(16);
+			fill(0,0,0,150);
+			rect(this.x, this.y, 180, 100);
+			fill(255);
+			text(this.msg, this.x+35, this.y+30);
+	}
+};
+
+
+/**********Squares**********/
+
+var Square = function(config){
+	this.x = config.x-630/(grid-2);
+	this.y = config.y-630/(grid-2);
+	this.width = siz;
+	this.height = siz;
+	
+	this.used = 0;
+	if (hideMap) {this.seen = 0;} else {this.seen = 1;}
+	this.variable = 0;
+	this.aidVariable = 0;
+	this.txt = 0;
+	this.unClickable = false;
+};
+
+
+Square.prototype.draw = function() {
+	if (this.aidVariable === 0) {
+		image(squ1Color, this.x, this.y);
+	}
+	if (this.aidVariable === 1) {
+		fill(squ2Color);
+		rect(this.x, this.y, this.width-1, this.height-1);
+	}
+	if (this.txt > 0 && showScore) {
+		fill(0);
+		textSize(15);
+		textAlign(CENTER, BASELINE);
+		text(this.txt, this.x+siz/2, this.y+siz/1.3);
+		textAlign(LEFT, BASELINE);
+	}
+};
+
+Square.prototype.mouseClick = function() {
+	if (mouseX > this.x &&
+		mouseX < (this.x + this.width) &&
+		mouseY > this.y &&
+		mouseY < (this.y + this.height) && !this.unClickable)
+	{
+		if (this.variable === 0) 
+		{this.aidVariable = 1;}
+		else 
+		{this.aidVariable = 0;}
+		
+		this.draw();
+	}
+};
+
+
+
+/**********
+*Functions*
+**********/
+
+var
+
+
+currentColor = function () {
+	if (theme === "none") {
+		if (grid === 23) {
+			squ1Color = easy1;
+			squ2Color = color(180, 255, 180);
+		}
+		else if (grid === 20) {
+			squ1Color = mid1;
+			squ2Color = color(255, 255, 180);
+		}
+		else if (grid === 17) {
+			squ1Color = hard1;
+			squ2Color = color(255, 180, 180);
+		}	
+	} else if (theme === "rock") {
+		if (grid === 23) {
+			squ1Color = rockS;
+		}
+		else if (grid === 20) {
+			squ1Color = rockM;
+		}
+		else if (grid === 17) {
+			squ1Color = rockL;
+		}
+		squ2Color = color(200, 200, 200);
+	} else if (theme === "leaf") {
+		if (grid === 23) {
+			squ1Color = leafS;
+		}
+		else if (grid === 20) {
+			squ1Color = leafM;
+		}
+		else if (grid === 17) {
+			squ1Color = leafL;
+		}
+		squ2Color = color(215, 230, 110);
+	} else if (theme === "skin") {
+		if (grid === 23) {
+			squ1Color = skinS;
+		}
+		else if (grid === 20) {
+			squ1Color = skinM;
+		}
+		else if (grid === 17) {
+			squ1Color = skinL;
+		}
+		squ2Color = color(255, 245, 180);
+	} else if (theme === "mud") {
+		if (grid === 23) {
+			squ1Color = mudS;
+		}
+		else if (grid === 20) {
+			squ1Color = mudM;
+		}
+		else if (grid === 17) {
+			squ1Color = mudL;
+		}
+		squ2Color = color(220, 180, 120);
+	}
+	if (grid === 23) {
+		jailSize = jailS;
+		safeSize = safeS;
+	}
+	else if (grid === 20) {
+		jailSize = jailM;
+		safeSize = safeM;
+	}
+	else if (grid === 17) {
+		jailSize = jailL;
+		safeSize = safeL;
+	}
+},
+
+
+sittingsDraw = function () {
+	fill(0);
+	rect(0, 0, width, 60);
+	image(menuArt, 0, 0);
+	
+	if (changeSpeed === 8) {
+		rect(100, 0, 140, 60);
+		image(x2, 100, 0);
+	} else if (changeSpeed === 4) {
+		rect(100, 0, 140, 60);
+		image(x4, 100, 0);
+	}
+	
+	if (scene === "move") {
+		rect(325, 0, 35, 60);
+		image(pauseB, 325, 0);
+	}
+},
+
+check = function () {
+	var lop = true;
+	look = [grid*(grid-2)+1];
+	var find = function(q) {
+		if (squares[q].variable === 1 && squares[q].used === 0) {
+			squares[q].used = 1;
+			path.push(q);
+		}
+		if (q === grid*2-2) {
+			scene = "move";
+			if (hideMap) {
+				fill(0);
+				rect(0, 60, 630, 630);
+			}
+			lop = false;
+		}
+	};
+	while (lop) {
+		path = [];
+		for (var i = 0; i < look.length; i++) {
+			var w = look[i];
+			
+			find(w-1);
+			find(w+grid);
+			find(w-grid);
+			find(w+1);
+			
+		}
+		look = path;
+		if (look.length < 1 ||
+			squares[grid*(grid-2)+1].variable === 0) {
+			lop = false;
+			block = true;
+			fill(0, 0, 0, 120);
+			rect(0, 0, width, height);
+			fill(200);
+			textSize(30);
+			text('there is no open path to the finish', 80, 365);
+		}
+	}
+	for (var i = 0; i < grid*grid; i++) {squares[i].used = 0;}
+},
+
+
+cat = function (x, y, size) {
+	imageMode(CENTER);
+	if (charac === 7) {
+		image(thief, x, y);
+	} else
+	if (charac === 1) {
+		image(raccoon, x, y);
+	} else
+	if (charac === 2) {
+		image(pirate, x, y);
+	} else
+	if (charac === 3) {
+		image(alien, x, y);
+	} else
+	if (charac === 4) {
+		image(zebra, x, y);
+	} else
+	if (charac === 5) {
+		image(monster, x, y);
+	} else
+	if (charac === 6) {
+		image(ninja, x, y);
+	} else
+	if (charac === 8) {
+		image(penguin, x, y);
+	} else
+	if (charac === 9) {
+		image(robot, x, y);
+	} else
+	if (charac === 10) {
+		image(invisable, x, y);
+	}
+	imageMode(CORNER);
+	
+},
+move = function () {
+	
+	var
+
+	ur = true,
+	ul = true,
+	ud = true,
+	rl = true,
+	rd = true,
+	ld = true,
+	o;
+	
+	/**************************************************/
+	
+	if (squares[p+grid].variable === 1) {
+		ur = squares[p-1].txt <= squares[p+grid].txt;
+	} else {
+		ur = true;
+	}
+	
+	if (squares[p-grid].variable === 1) {
+		ul = squares[p-1].txt <= squares[p-grid].txt;
+		rl = squares[p+grid].txt <= squares[p-grid].txt;
+	} else {
+		ul = true;
+		rl = true;
+	}
+	
+	if (squares[p+1].variable === 1) {
+		ud = squares[p-1].txt <= squares[p+1].txt;
+		rd = squares[p+grid].txt <= squares[p+1].txt;
+		ld = squares[p-grid].txt <= squares[p+1].txt;
+	} else {
+		ud = true;
+		rd = true;
+		ld = true;
+	}
+	
+	/**************************************************/
+	
+	if (catY === squares[p].y+siz/2 &&
+		catX === squares[p].x+siz/2) {
+		
+		if (squares[p].txt === 15 &&
+			achevs[0].lock === 0) {
+			achevs[0].lock = 1; newAch = true; achScene = scene;
+		}
+		
+		if (hideMap) {
+		for (var i = 0; i < 12; i++) {
+			
+			if (i === 0) {
+				o = p-1;
+			}else
+			if (i === 1) {
+				o = p+grid;
+			}else
+			if (i === 2) {
+				o = p+1;
+			}else
+			if (i === 3) {
+				o = p-grid;
+			}else
+			if (i === 4) {
+				o = p-2;
+			}else
+			if (i === 5) {
+				o = p-1+grid;
+			}else
+			if (i === 6) {
+				o = p+grid*2;
+			}else
+			if (i === 7) {
+				o = p+1+grid;
+			}else
+			if (i === 8) {
+				o = p+2;
+			}else
+			if (i === 9) {
+				o = p+1-grid;
+			}else
+			if (i === 10) {
+				o = p-grid*2;
+			}else
+			if (i === 11) {
+				o = p-1-grid;
+			}
+			
+			if (o < 0 || o > grid*grid-1) {o = 0;}
+			for (var j = 0; j < grid; j++) {
+				if (o === grid*j) {o = 0;}
+			}
+			
+			if (squares[o].seen === 0) {
+				squares[o].draw();
+				squares[o].seen = 1;
+			}
+		}}
+		
+		if (changeSpeed > 0) {
+			squares[p].txt++;
+			score++;
+			step = siz/changeSpeed;
+		} else {
+			skip(); return;
+		}
+		
+	}
+	
+	/**************************************************/
+	
+	squares[p].draw();
+	
+	if (squares[p-1].variable === 1 && ur && ul && ud) {
+		
+		catY-=step;
+		squares[p-1].draw();
+		if (catY === squares[p-1].y+siz/2) {p-=1;}
+		
+	}
+	
+	else if (squares[p+grid].variable === 1 && rl && rd) {
+		
+		catX+=step;
+		squares[p+grid].draw();
+		if (catX === squares[p+grid].x+siz/2) {p+=grid;}
+		
+	}
+	
+	else if (squares[p-grid].variable === 1 && ld) {
+		
+		catX-=step;
+		squares[p-grid].draw();
+		if (catX === squares[p-grid].x+siz/2) {p-=grid;}
+		
+	}
+	
+	else if (squares[p+1].variable === 1) {
+		
+		catY+=step;
+		squares[p+1].draw();
+		if (catY === squares[p+1].y+siz/2) {p+=1;}
+		
+	}
+	
+	image(safeSize, squares[grid*(grid-2)+1].x, squares[grid*(grid-2)+1].y);
+	cat(catX, catY);
+	image(jailSize, squares[grid*2-2].x, squares[grid*2-2].y);
+	
+},
+
+skip = function () {
+	
+	while (p !== grid*(grid-2)+1) {
+	
+	var
+
+	ur = true,
+	ul = true,
+	ud = true,
+	rl = true,
+	rd = true,
+	ld = true,
+	o;
+	
+	/**************************************************/
+	
+	if (squares[p+grid].variable === 1) {
+		ur = squares[p-1].txt <= squares[p+grid].txt;
+	} else {
+		ur = true;
+	}
+	
+	if (squares[p-grid].variable === 1) {
+		ul = squares[p-1].txt <= squares[p-grid].txt;
+		rl = squares[p+grid].txt <= squares[p-grid].txt;
+	} else {
+		ul = true;
+		rl = true;
+	}
+	
+	if (squares[p+1].variable === 1) {
+		ud = squares[p-1].txt <= squares[p+1].txt;
+		rd = squares[p+grid].txt <= squares[p+1].txt;
+		ld = squares[p-grid].txt <= squares[p+1].txt;
+	} else {
+		ud = true;
+		rd = true;
+		ld = true;
+	}
+	
+	/**************************************************/
+	
+	squares[p].txt++;
+	score++;
+	if (squares[p].txt === 15 &&
+		achevs[0].lock === 0) {
+		achevs[0].lock = 1; newAch = true; achScene = scene;
+	}
+	
+	if (hideMap) {
+	for (var i = 0; i < 12; i++) {
+		
+		if (i === 0) {
+			o = p-1;
+		}else
+		if (i === 1) {
+			o = p+grid;
+		}else
+		if (i === 2) {
+			o = p+1;
+		}else
+		if (i === 3) {
+			o = p-grid;
+		}else
+		if (i === 4) {
+			o = p-2;
+		}else
+		if (i === 5) {
+			o = p-1+grid;
+		}else
+		if (i === 6) {
+			o = p+grid*2;
+		}else
+		if (i === 7) {
+			o = p+1+grid;
+		}else
+		if (i === 8) {
+			o = p+2;
+		}else
+		if (i === 9) {
+			o = p+1-grid;
+		}else
+		if (i === 10) {
+			o = p-grid*2;
+		}else
+		if (i === 11) {
+			o = p-1-grid;
+		}
+		
+		if (o < 0 || o > grid*grid-1) {o = 0;}
+		for (var j = 0; j < grid; j++) {
+			if (o === grid*j) {o = 0;}
+		}
+		
+		if (squares[o].seen === 0) {
+			squares[o].seen = 1;
+		}
+	}}
+	
+	/**************************************************/
+	
+	if (squares[p-1].variable === 1 && ur && ul && ud) {p-=1;}
+	
+	else if (squares[p+grid].variable === 1 && rl && rd) {p+=grid;}
+	
+	else if (squares[p-grid].variable === 1 && ld) {p-=grid;}
+	
+	else if (squares[p+1].variable === 1) {p+=1;}
+	
+	}
+	
+	if (hideMap) {fill(0); rect(0,0,630,690);}
+	for (var j = 0; j < grid; j++) {
+		for (var i = 0; i < grid; i++) {
+			if (squares[i+j*grid].seen === 1) {
+				squares[i+j*grid].draw();
+			}
+		}
+	}
+	sittingsDraw();
+	image(safeSize, squares[grid*(grid-2)+1].x, squares[grid*(grid-2)+1].y);
+	image(jailSize, squares[grid*2-2].x, squares[grid*2-2].y);
+	cat(squares[grid*(grid-2)+1].x+siz/2, squares[grid*(grid-2)+1].y+siz/2);
+	
+	changeSpeed = 16;
+	scene = "finish";
+	fill(0, 0, 0, 150);
+	rect(0, 0, 630, 60);
+	fill(0);
+	rect(565, 0, 40, 60);
+	image(finishB, 565, 0);	
+},
+
+
+
+start = function () {
+	scene = "start";
+	rescene = "start";
+	background(225);
+	image(startArt, 0, 0);
+},
+end = function () {
+	scene = "end";
+	for (var i = 0; i < 3; i++) {
+		if (score >= characts[i].score && grid === 23 &&
+			characts[i].lock === 0) {
+			characts[i].lock = 1;
+		}
+		if (score >= characts[i+3].score && grid === 20 &&
+			characts[i+3].lock === 0) {
+			characts[i+3].lock = 1;
+		}
+		if (score >= characts[i+7].score && grid === 17 &&
+			characts[i+7].lock === 0) {
+			characts[i+7].lock = 1;
+		}
+	}
+	
+	allCharac = true;
+	for (var i = 0; i < 10; i++) {
+		if (characts[i].lock === 0) {
+			allCharac = false;
+		}
+	}
+	if (allCharac && achevs[5].lock === 0) {
+		achevs[5].lock = 1; newAch = true; achScene = scene;
+	}
+	if (score === 28 && achevs[2].lock === 0) {
+		achevs[2].lock = 1; newAch = true; achScene = scene;
+	}
+	if (grid === 23 && score > 1670 && achevs[6].lock === 0) {
+		achevs[6].lock = 1; newAch = true; achScene = scene;
+	}
+	if (grid === 20 && score > 1360 && achevs[7].lock === 0) {
+		achevs[7].lock = 1; newAch = true; achScene = scene;
+	}
+	if (grid === 17 && score > 784 && achevs[8].lock === 0) {
+		achevs[8].lock = 1; newAch = true; achScene = scene;
+	}
+	
+	background(225);
+	image(endArt, 0, 0);
+},
+help = function () {
+	scene = "help";
+	var t = 0;
+	for (var i = 0; i < 9; i++) {
+		if (achevs[i].lock === 1) {
+			t ++;
+		}
+	}
+	if (t > 3) {
+		themeLock = false;
+	}
+	background(225);
+	image(helpArt, 0, 0);
+	if (themeLock) {
+		fill(75);
+		textSize(20);
+		text('Get at least four achievements to unlock', 200, 535);
+		fill(0,0,0,150);
+		ellipse(190, 600, 100, 100);
+		ellipse(310, 600, 100, 100);
+		ellipse(430, 600, 100, 100);
+		ellipse(550, 600, 100, 100);
+	}
+	if (theme === "none") {
+		image(choseTheme, 20, 550);
+	} else if (theme === "rock") {
+		image(choseTheme, 140, 550);
+	} else if (theme === "leaf") {
+		image(choseTheme, 260, 550);
+	} else if (theme === "skin") {
+		image(choseTheme, 380, 550);
+	} else if (theme === "mud") {
+		image(choseTheme, 500, 550);
+	}
+},
+diffic = function () {
+	diff = true;
+	image(diffArt, 130, 490);
+	if (firstPlay) {
+		fill(0,0,0,120);
+		rect(280, 585, 70, 40);
+		rect(400, 585, 70, 40);
+	}
+},
+credits = function () {
+	scene = "credits";
+	image(creditsArt, 150, 200+z*10);
+	if (!hideMap) {
+		image(off, 200, 275+z*10);
+	}
+	if (!showScore) {
+		image(off, 330, 275+z*10);
+	}
+	if (z > 0.001 && cred === 1) {z /= 1.1;}
+	else if (cred === 1) {cred = 0; z = 0.1;}
+	else if (z < 70 && cred === 2) {z *= 1.2;}
+	else {cred = 0; z = 100; start();
+		if (achevs[3].lock === 0) {
+			achevs[3].lock = 1;
+			newAch = true; achScene = "start";
+		}
+	}
+},
+charact = function () {
+	scene = "charact";
+	background(225);
+	image(charactarsArt, 0, 0);
+	textSize(17);
+	
+	for (var i = 0; i < 10; i++) {
+		characts[i].draw();
+	}
+},
+achv = function () {
+	scene = "achv";
+	showMyMap = false;
+	background(225);
+	image(achevemntArt, 0, 0);
+	
+	if (achvClick[0] === 1) {
+		fill(180, 255, 180);
+		rect(25, 574, 71, 71);
+	}
+	if (achvClick[1] === 1) {
+		fill(255, 255, 180);
+		rect(225, 574, 71, 71);
+	}
+	if (achvClick[2] === 1) {
+		fill(255, 180, 180);
+		rect(425, 574, 71, 71);
+	}
+	for (var i = 0; i < 9; i++) {
+		achevs[i].draw();
+	}
+},
+
+newAchv = function () {
+	image(achvArt, 573+a*30, 610);
+	if (a > 0.001 && !go) {a /= 1.1;}
+	else if (a <= 0.001) {a = 0.002; go = true;}
+	else if (go && a < 20) {a *= 1.1;}
+	else {newAch = false; a = 10; go = false;}
+},
+
+
+
+resume = function () {
+	scene = rescene;
+	textSize(15);
+	fill(0); rect(0, 60, 630, 630);
+	for (var j = 0; j < grid; j++) {
+		for (var i = 0; i < grid; i++) {
+			if (squares[i+j*grid].seen === 1) {
+				squares[i+j*grid].draw();
+			}
+		}
+	}
+	image(safeSize, squares[grid*(grid-2)+1].x, squares[grid*(grid-2)+1].y);
+	image(jailSize, squares[grid*2-2].x, squares[grid*2-2].y);
+	cat(catX, catY);
+	sittingsDraw();
+},
+editMap = function () {
+	scene = "map";
+	score = 0;
+	aniScore = 0;
+	p = grid*2-2;
+	siz = 630/(grid-2);
+	catX = siz/2;
+	catY = 690-siz/2;
+	for (var i = 0; i < grid*grid; i++){
+		squares[i].txt = 0;
+		if (hideMap) {squares[i].seen = 0;} else {squares[i].seen = 1;}
+	}
+	for (var j = 0; j < grid; j++) {
+		for (var i = 0; i < grid; i++) {
+			squares[i+j*grid].draw();
+		}
+	}
+	image(safeSize, squares[grid*(grid-2)+1].x, squares[grid*(grid-2)+1].y);
+	image(jailSize, squares[grid*2-2].x, squares[grid*2-2].y);
+	fill(0);
+	textSize(15);
+	sittingsDraw();
+},
+newMap = function () {
+	scene = "map";
+	score = 0;
+	aniScore = 0;
+	p = grid*2-2;
+	siz = 630/(grid-2);
+	catX = siz/2;
+	catY = 690-siz/2;
+	for (var h = 0; h < 23*23; h++) {squares.pop();}
+	for (var j = 0; j < grid; j++) {
+		for (var i = 0; i < grid; i++) {
+			squares.push(new Square({
+				x: siz * j,
+				y: 60 + siz * i
+			}));
+			squares[i+j*grid].draw();
+		}
+	}
+	squares[grid*2-2].aidVariable = 1;
+	squares[grid*(grid-2)+1].aidVariable = 1;
+	squares[grid*2-2].unClickable = true;
+	squares[grid*(grid-2)+1].unClickable = true;
+	squares[grid*2-2].draw();
+	image(safeSize, squares[grid*(grid-2)+1].x, squares[grid*(grid-2)+1].y);
+	image(jailSize, squares[grid*2-2].x, squares[grid*2-2].y);
+	sittingsDraw();
+},
+preLoad = function () { 
+	scene = "load";
+	background(0);
+	fill(255);
+	rect(0, 460, W, 5);
+	if (W > 630 && lod) {
+		imageMode(CENTER);
+		if (265 < mouseX && mouseX < 365 &&
+			410 < mouseY && mouseY < 510) {
+			image(load2, 315, 460);
+		} else {image(load1, 315, 460);}
+		imageMode(CORNER);
+	}
+},
+cutScene = function () {
+	diff = false;
+	if (scene !== achScene) {newAch = false; a = 10; go = false; achScene = "none";}
+	if (inout === "in") {X += 10; Y += 6;} else
+	if (inout === "out") {X += 10; Y -= 6;} else
+	if (inout === "left") {X += 20;} else
+	if (inout === "right") {X -= 20;} else
+	if (inout === "up") {Y += 10;}
+	scene = "cut";
+	if (inout === "in" || inout === "out") {
+		currentColor();
+		if (firstPlay && inout === "in") {background(0);} else {
+			if (rescene === "move" || rescene === "pause") {
+				if (hideMap) {
+					background(0);
+					for (var j = 0; j < grid; j++) {
+						for (var i = 0; i < grid; i++) {
+							if (squares[i+j*grid].seen === 1) {
+								squares[i+j*grid].draw();
+							}
+						}
+					}
+				} else {
+					for (var j = 0; j < grid; j++) {
+						for (var i = 0; i < grid; i++) {
+							squares[i+j*grid].draw();
+						}
+					}
+				} cat(catX, catY);
+			} else {
+				for (var j = 0; j < grid; j++) {
+					for (var i = 0; i < grid; i++) {
+						squares[i+j*grid].draw();
+					}
+				}
+			}
+			image(safeSize, squares[grid*(grid-2)+1].x, squares[grid*(grid-2)+1].y);
+			image(jailSize, squares[grid*2-2].x, squares[grid*2-2].y);
+			sittingsDraw();
+		}
+		if (inout === "in") {
+			image(quart1, -630+X, 0);
+			image(quart2, 631-X, 173);
+			image(quart1, -630+X, 345);
+			image(quart2, 631-X, 518);
+		} else {
+			image(quart1, 0-X, 0);
+			image(quart2, 0+X, 173);
+			image(quart1, 0-X, 345);
+			image(quart2, 0+X, 518);
+		}
+		
+		if (cuts === "start") {
+			image(main, 170, Y);
+			if (X > 630) {
+				if (inout === "in") { start(); } else {
+					if (firstPlay && grid === 23) {
+						intro();
+					} else { newMap(); }
+				}
+			}
+		} else
+		if (cuts === "charact") {
+			if (X > 630) {
+				if (inout === "in") { charact(); } else {
+					if (rescene === "move") { resume(); }
+					else if (rescene === "map") { editMap(); }
+					else { resume(); scene = "pause"; }
+				}
+			}
+		} else
+		if (cuts === "help") {
+			if (X > 630) {
+				if (inout === "in") { help(); } else {
+					if (rescene === "move") { resume(); }
+					else if (rescene === "map") { editMap(); }
+					else { resume(); }
+				}
+			}
+		} else
+		if (cuts === "end") {
+			if (X > 630) {
+				if (inout === "in") { end(); }
+				else if (Y < 0) { newMap(); }
+				else { editMap(); }
+			}
+		}
+	} else if (cuts === "help") {
+		background(225);
+		image(startArt, X, 0);
+		
+		image(helpArt, X-630, 0);
+		if (themeLock) {
+			fill(75);
+			textSize(20);
+			text('Get the first six achevements to unlock', X-440, 535);
+			fill(0,0,0,150);
+			ellipse(X-440, 600, 100, 100);
+			ellipse(X-320, 600, 100, 100);
+			ellipse(X-200, 600, 100, 100);
+			ellipse(X-80, 600, 100, 100);
+		}
+		if (theme === "none") {
+			image(choseTheme, X-610, 550);
+		} else if (theme === "rock") {
+			image(choseTheme, X-490, 550);
+		} else if (theme === "leaf") {
+			image(choseTheme, X-370, 550);
+		} else if (theme === "skin") {
+			image(choseTheme, X-250, 550);
+		} else if (theme === "mud") {
+			image(choseTheme, X-130, 550);
+		}
+		if (X > 630) { X = 630; help(); }
+		if (X < 0) { X = 0; start(); }
+	} else if (cuts === "achv") {
+		background(225);
+		image(startArt, X-630, 0);
+		
+		image(achevemntArt, X, 0);
+		if (achvClick[0] === 1) {
+			fill(180, 255, 180);
+			rect(X+25, 574, 71, 71);
+		}
+		if (achvClick[1] === 1) {
+			fill(255, 255, 180);
+			rect(X+225, 574, 71, 71);
+		}
+		if (achvClick[2] === 1) {
+			fill(255, 180, 180);
+			rect(X+425, 574, 71, 71);
+		}
+		for (var i = 0; i < 9; i++) {
+			if (achevs[i].lock === 0) {
+				achevs[i].draw();
+			}
+		}
+		if (X < 0) { X = 0; achv(); }
+		if (X > 630) { X = 630; start(); }
+	
+	} else if (cuts === "end") {
+		background(225);
+		image(startArt, 0, Y-690);
+		
+		image(endArt, 0, Y+0);
+		textSize(30);
+		fill(0);
+		text(score, 290, Y+300);
+		if (Y > 690) { start(); }
+	}
+},
+
+intro = function () {
+	for (var j = 0; j < grid; j++) {
+		for (var i = 0; i < grid; i++) {
+			squares[i+j*grid].draw();
+		}
+	}
+	image(safeSize, squares[grid*(grid-2)+1].x, squares[grid*(grid-2)+1].y);
+	image(jailSize, squares[grid*2-2].x, squares[grid*2-2].y);
+	sittingsDraw();
+	fill(0,0,0,120);
+	rect(0,60,630,630);
+	fill(255);
+	
+	if (intr === 0) {
+		scene = "intro";
+		textSize(50);
+		text('Welcome', 212,200);
+		intr = 1;
+	} else
+	if (intr === 1) {
+		textSize(40);
+		text('This is the Start', 100, 615);
+		text('This is the End', 265, 165);
+		text('Your goal is to\n draw a maze', 190, 330);
+		noFill();
+		stroke(255);
+		strokeWeight(6);
+		arc(85, 640, 130, 70, PI, 3*PI/2);
+		arc(545, 120, 130, 70, 0, PI/2);
+		fill(255);
+		triangle(20, 650, 15, 640, 25, 640);
+		triangle(610, 110, 615, 120, 605, 120);
+		stroke(0);
+		strokeWeight(1);
+		image(safeSize, squares[grid*(grid-2)+1].x, squares[grid*(grid-2)+1].y);
+		image(jailSize, squares[grid*2-2].x, squares[grid*2-2].y);
+		intr = 2;
+	} else
+	if (intr === 2) {
+		textSize(30);
+		text("Let's start with\n a small maze", 100, 340);
+		text('Click on those\n four Squares', 100, 550);
+		squares[42].draw();
+		squares[43].draw();
+		squares[67].draw();
+		squares[90].draw();
+		squares[42].mouseClick();
+		squares[43].mouseClick();
+		squares[67].mouseClick();
+		squares[90].mouseClick();
+		if (squares[42].aidVariable === 1 &&
+			squares[43].aidVariable === 1 &&
+			squares[67].aidVariable === 1 &&
+		squares[90].aidVariable === 1) {intr = 3; intro();}
+	} else
+	if (intr === 3) {
+		text("And those", 130, 580);
+		squares[64].draw();
+		squares[65].draw();
+		squares[88].draw();
+		squares[111].draw();
+		squares[113].draw();
+		squares[136].draw();
+		squares[159].draw();
+		squares[64].mouseClick();
+		squares[65].mouseClick();
+		squares[88].mouseClick();
+		squares[111].mouseClick();
+		squares[113].mouseClick();
+		squares[136].mouseClick();
+		squares[159].mouseClick();
+		if (squares[64].aidVariable === 1 &&
+			squares[65].aidVariable === 1 &&
+			squares[88].aidVariable === 1 &&
+			squares[111].aidVariable === 1 &&
+			squares[113].aidVariable === 1 &&
+			squares[136].aidVariable === 1 &&
+		squares[159].aidVariable === 1) {intr = 4; intro();}
+	} else
+	if (intr === 4) {
+		text("And those", 130, 550);
+		squares[40].draw();
+		squares[62].draw();
+		squares[63].draw();
+		squares[110].draw();
+		squares[134].draw();
+		squares[157].draw();
+		squares[182].draw();
+		squares[40].mouseClick();
+		squares[62].mouseClick();
+		squares[63].mouseClick();
+		squares[110].mouseClick();
+		squares[134].mouseClick();
+		squares[157].mouseClick();
+		squares[182].mouseClick();
+		if (squares[40].aidVariable === 1 &&
+			squares[62].aidVariable === 1 &&
+			squares[63].aidVariable === 1 &&
+			squares[110].aidVariable === 1 &&
+			squares[134].aidVariable === 1 &&
+			squares[157].aidVariable === 1 &&
+		squares[182].aidVariable === 1) {intr = 5; intro();}
+	} else
+	if (intr === 5) {
+		text("Keep clicking", 190, 490);
+		squares[37].draw();
+		squares[38].draw();
+		squares[61].draw();
+		squares[108].draw();
+		squares[109].draw();
+		squares[156].draw();
+		squares[37].mouseClick();
+		squares[38].mouseClick();
+		squares[61].mouseClick();
+		squares[108].mouseClick();
+		squares[109].mouseClick();
+		squares[156].mouseClick();
+		if (squares[37].aidVariable === 1 &&
+			squares[38].aidVariable === 1 &&
+			squares[61].aidVariable === 1 &&
+			squares[108].aidVariable === 1 &&
+			squares[109].aidVariable === 1 &&
+		squares[156].aidVariable === 1) {intr = 6; intro();}
+	} else
+	if (intr === 6) {
+		text("You will do it", 250, 490);
+		squares[130].draw();
+		squares[131].draw();
+		squares[179].draw();
+		squares[202].draw();
+		squares[181].draw();
+		squares[205].draw();
+		squares[130].mouseClick();
+		squares[131].mouseClick();
+		squares[179].mouseClick();
+		squares[202].mouseClick();
+		squares[181].mouseClick();
+		squares[205].mouseClick();
+		if (squares[130].aidVariable === 1 &&
+			squares[131].aidVariable === 1 &&
+			squares[179].aidVariable === 1 &&
+			squares[202].aidVariable === 1 &&
+			squares[181].aidVariable === 1 &&
+		squares[205].aidVariable === 1) {intr = 7; intro();}
+	} else
+	if (intr === 7) {
+		text("Just one more time", 280, 400);
+		squares[83].draw();
+		squares[84].draw();
+		squares[129].draw();
+		squares[152].draw();
+		squares[175].draw();
+		squares[198].draw();
+		squares[177].draw();
+		squares[178].draw();
+		squares[83].mouseClick();
+		squares[84].mouseClick();
+		squares[129].mouseClick();
+		squares[152].mouseClick();
+		squares[175].mouseClick();
+		squares[198].mouseClick();
+		squares[177].mouseClick();
+		squares[178].mouseClick();
+		if (squares[83].aidVariable === 1 &&
+			squares[84].aidVariable === 1 &&
+			squares[129].aidVariable === 1 &&
+			squares[152].aidVariable === 1 &&
+			squares[175].aidVariable === 1 &&
+			squares[198].aidVariable === 1 &&
+			squares[177].aidVariable === 1 &&
+			squares[178].aidVariable === 1) {intr = 8;
+				for (var j = 0; j < grid; j++) {
+					for (var i = 0; i < grid; i++) {
+						squares[i+j*grid].draw();
+					}
+				}
+				image(safeSize, squares[grid*(grid-2)+1].x, squares[grid*(grid-2)+1].y);
+				image(jailSize, squares[grid*2-2].x, squares[grid*2-2].y);
+				sittingsDraw();
+				fill(0,0,0,120);
+				rect(0,60,630,630);
+				fill(255);
+				textSize(30);
+				text('  Wow, You created a small Maze\nCan you create a bigger one now?', 90, 260);
+			}
+	} else
+	if (intr === 8) {
+		
+	} else
+	if (intr === 9) {
+		text('The Maze should start from\n the jail and end at the safe\n\nAnd you have to draw the\n hardest maze you can do\n   to slow down the thief', 130,180);
+		intr = 10;
+	} else
+	if (intr === 10) {
+		textSize(20);
+		text('After you finish, Click on start\n to watch the perplexed thief', 305, 180);
+		text("Don't forget to check\nthe other characters", 75, 145);
+		textSize(30);
+		text('Good Luck', 122, 310);
+		noFill();
+		stroke(255);
+		strokeWeight(6);
+		arc(380, 150, 60, 60, 3*PI/2, 2*PI);
+		arc(380, 90, 60, 60, PI/2, PI);
+		arc(60, 90, 50, 120, PI/2, PI);
+		fill(255);
+		triangle(350, 80, 345, 90, 355, 90);
+		triangle(35, 80, 30, 90, 40, 90);
+		stroke(0);
+		strokeWeight(1);
+		intr = 11;
+	} else
+	if (intr === 11) {
+		firstPlay = false;
+		editMap();
+	}
+	
+},
+
+load1 = loadImage('Drawings/miscellaneous/load1.png'),
+load2 = loadImage('Drawings/miscellaneous/load2.png');
+
+
+{
+var
+
+help1Bot = new Button({x:135, y:400, img1:help1, img2:help2,
+	onClick:function(){
+		inout = "left";
+		cuts = "help";
+		var t = 0;
+		for (var i = 0; i < 9; i++) {
+			if (achevs[i].lock === 1) {
+				t ++;
+			}
+		}
+		if (t > 3) {
+			themeLock = false;
+		}
+		X = 0; cutScene();
+}}),
+
+achvBot = new Button({x:495, y:400, img1:achv1, img2:achv2,
+	onClick:function(){
+		inout = "right";
+		cuts = "achv";
+		X = 630; cutScene();
+	}
+}),
+
+playBot = new Button( {x:315, y:380, img1:play1, img2:play2,
+	onClick:function(){diffic();}
+}),
+
+backBot = new Button({x:550, y:30, size:100, img1:back1, img2:back2,
+	onClick:function(){
+		if (rescene === "start" && scene === "help") {
+			inout = "right"; cuts = "help"; cutScene();
+		} else
+		if (scene === "achv") {
+			inout = "left"; cuts = "achv"; cutScene();
+		} else { inout="out"; cuts=scene; X=0; cutScene(); }
+	}
+}),
+
+edit2Bot = new Button({x:165, y:360, img1:edit1, img2:edit2,
+	onClick:function(){
+		inout = "out";
+		cuts = "end";
+		X = 0; Y = 600;
+		for (var i = 0; i < grid*grid; i++){
+			squares[i].txt = 0;
+			if (hideMap) {squares[i].seen = 0;} else {squares[i].seen = 1;}
+		}
+		cutScene();
+	}
+}),
+
+new2Bot = new Button( {x:465, y:360, img1:reset1, img2:reset2,
+	onClick:function(){
+		inout = "out";
+		cuts = "end";
+		X = 0; Y = 0;
+		for (var h = 0; h < 23*23; h++) {squares.pop();}
+		for (var j = 0; j < grid; j++) {
+			for (var i = 0; i < grid; i++) {
+				squares.push(new Square({
+					x: siz * j,
+					y: 60 + siz * i
+				}));
+			}
+		}
+		cutScene();
+	}
+}),
+
+quit2Bot = new Button({x:315, y:460, img1:quit1, img2:quit2,
+	onClick:function(){
+		inout = "up";
+		cuts = "end";
+		Y = 0;
+		cutScene();
+	}
+}),
+
+characts = [
+new Charact({x:200, y:145, score:250,
+msg:' score 250 in\n   easy map'}),
+new Charact({x:200, y:295, score:625,
+msg:' score 625 in\n   easy map'}),
+new Charact({x:200, y:445, score:1000,
+msg:'score 1000 in\n   easy map'}),
+new Charact({x:430, y:145, score:200,
+msg:'score 200 in\n   mid. map'}),
+new Charact({x:430, y:295, score:500,
+msg:'score 500 in\n   mid. map'}),
+new Charact({x:430, y:445, score:800,
+msg:'score 800 in\n   mid. map'}),
+new Charact({x:315, y:70,  score:0, lock:2}),
+new Charact({x:315, y:220, score:150,
+msg:' score 150 in\n   hard map'}),
+new Charact({x:315, y:370, score:375,
+msg:' score 375 in\n   hard map'}),
+new Charact({x:315, y:520, score:600,
+msg:' score 600 in\n   hard map'})
+],
+
+achevs = [
+new Achev({x:25,  y:190,
+msg:'   Make the thief\n        pass by\n       the same\n  square 15 times'}),
+new Achev({x:225, y:190,
+msg:'      Make the\n     thief return\n        back to\n       the start'}),
+new Achev({x:425, y:190,
+msg:'       Get the\n     least score\n     possible in\n      the game'}),
+new Achev({x:25,  y:330,
+msg:'\n       Visit my\n       website'}),
+new Achev({x:225, y:330,
+msg:'\n      Click 1500\n        squares'}),
+new Achev({x:425, y:330,
+msg:'\n      Unlock all\n      characters'}),
+new Achev({x:25,  y:535, height:110,
+msg:'       Beat my\n       score on\n     easy mode\n         [1670]'}),
+new Achev({x:225, y:535, height:110,
+msg:'       Beat my\n       score on\n   medium mode\n        [1360]'}),
+new Achev({x:425, y:535, height:110,
+msg:'       Beat my\n       score on\n     hard mode\n         [784]'}),
+];
+
+}
+
+
+/*************
+*MAIN PROGRAM*
+*************/
+
+window.onload = function() {lod = true;}
+
+draw = function() {
+
+	if (scene === "load") {
+		W += 4.2;
+		preLoad();
+	}
+	else
+	if (scene === "cut") {
+		cutScene();
+	}
+	else
+	if (scene === "start") {
+		if (newAch) {background(225); image(startArt, 0, 0); if(diff){diffic();} newAchv();}
+		help1Bot.draw();
+		achvBot.draw();
+		playBot.draw();
+	}
+	else
+	if (scene === "credits") {
+		if (cred !== 0) {
+			background(225);
+			image(startArt, 0, 0);
+			if (newAch) {newAchv();}
+			credits();
+		} else
+		if (newAch) {
+			background(225);
+			image(startArt, 0, 0);
+			newAchv();
+			image(creditsArt, 150, 200+z*10);
+			if (!hideMap) {
+				image(off, 200, 275+z*10);
+			}
+			if (!showScore) {
+				image(off, 330, 275+z*10);
+			}
+		}
+	}
+	else
+	if (scene === "help") {
+		backBot.draw();
+	} else
+	if (scene === "achv") {
+		if (!showMyMap) {
+			achv();
+			backBot.draw();
+		}
+	}
+	else
+	if (scene === "map") {
+		if (newAch) {editMap(); newAchv();}
+	}
+	else
+	if (scene === "charact") {
+		background(225);
+		image(charactarsArt, 0, 0);
+		backBot.draw();
+		textSize(17);
+		
+		for (var i = 0; i < 10; i++) {
+			characts[i].draw();
+		}
+		for (var i = 0; i < 10; i++) {
+			if (characts[i].lock === 1) {
+				
+				fill(0,0,0,200*characts[i].z);
+				quad(characts[i].v1[0], characts[i].v1[1], characts[i].v1[0]+75, characts[i].v1[1]+75, characts[i].v1[0], characts[i].v1[1]+150, characts[i].v1[0]-75, characts[i].v1[1]+75);
+				
+				image(lock2, characts[i].v1[0]-13+(characts[i].z*(-13)+13), characts[i].v1[1]+characts[i].m+(characts[i].z*(-30)+30)+50, 26*characts[i].z, 32*characts[i].z);
+				image(lock1, characts[i].v1[0]-13+(characts[i].z*(-13)+13), characts[i].v1[1]+65, 26*characts[i].z, 20*characts[i].z);
+				
+				if (characts[i].m > -15) {
+					characts[i].m -= 0.5;
+				}
+				else if (characts[i].z >= 0) {
+					characts[i].z -= 0.02;
+				}
+				else if (characts[i].z < 0) {
+					characts[i].lock = 2;
+					charact();
+				}
+			}
+		}
+	}
+	else
+	if (scene === "move") {
+		if (newAch) {
+			fill(0);
+			rect(571, 601, 60, 90);
+			if (squares[grid*(grid-1)-2].seen === 1) {
+				squares[grid*(grid-1)-2].draw();
+			}if (squares[grid*(grid-1)-3].seen === 1) {
+				squares[grid*(grid-1)-3].draw();
+			}if (squares[grid*(grid-1)-4].seen === 1) {
+				squares[grid*(grid-1)-4].draw();
+			}if (squares[grid*(grid-2)-2].seen === 1) {
+				squares[grid*(grid-2)-2].draw();
+			}if (squares[grid*(grid-2)-3].seen === 1) {
+				squares[grid*(grid-2)-3].draw();
+			}if (squares[grid*(grid-2)-4].seen === 1) {
+				squares[grid*(grid-2)-4].draw();
+			}
+		}
+		move();
+		if (newAch) {newAchv();}
+		
+		if (catX === squares[grid*2-2].x+siz/2 &&
+			catY === squares[grid*2-2].y+siz/2 &&
+			achevs[1].lock === 0)
+		{achevs[1].lock = 1; newAch = true; achScene = scene;}
+	
+		if (catX === squares[grid*(grid-2)+1].x+siz/2 &&
+			catY === squares[grid*(grid-2)+1].y+siz/2) {
+				scene = "finish";
+				fill(0, 0, 0, 150);
+				rect(0, 0, 630, 60);
+	   			fill(0);
+				rect(565, 0, 40, 60);
+				image(finishB, 565, 0);
+	   	}
+	}
+	else
+	if (scene === "finish") {
+		if (squares[grid*2-2].txt > 1 &&
+			achevs[1].lock === 0)
+		{achevs[1].lock = 1; newAch = true; achScene = scene;}
+		if (newAch) {
+			fill(0);
+			rect(571, 601, 60, 90);
+			if (squares[grid*(grid-1)-2].seen === 1) {
+				squares[grid*(grid-1)-2].draw();
+			}if (squares[grid*(grid-1)-3].seen === 1) {
+				squares[grid*(grid-1)-3].draw();
+			}if (squares[grid*(grid-1)-4].seen === 1) {
+				squares[grid*(grid-1)-4].draw();
+			}if (squares[grid*(grid-2)-2].seen === 1) {
+				squares[grid*(grid-2)-2].draw();
+			}if (squares[grid*(grid-2)-3].seen === 1) {
+				squares[grid*(grid-2)-3].draw();
+			}if (squares[grid*(grid-2)-4].seen === 1) {
+				squares[grid*(grid-2)-4].draw();
+			}
+			newAchv();
+		}
+	}
+	else
+	if (scene === "end") {
+		if (newAch || aniScore !== score) {
+			background(225);
+			image(endArt, 0, 0);
+			if (aniScore < score) {
+				aniScore += 5;
+			} else if (aniScore !== score) {
+				aniScore = score;
+			}
+			textSize(30);
+			fill(0);
+			textAlign(CENTER, BASELINE);
+			text(aniScore, 315, 300);
+			textAlign(LEFT, BASELINE);
+		}
+		edit2Bot.draw();
+		new2Bot.draw();
+		quit2Bot.draw();
+		if (newAch) {newAchv();}
+	}
+	
+};
+
+mouseDragged = function() {
+	
+	if (scene === "map" && mouseY > 60) {
+		if (block) {return;}
+		for (var k = 0; k < grid; k++) {
+			for (var o = 0; o < grid; o++) {
+				squares[o+k*grid].mouseClick();
+			}
+		}
+	}
+	else
+	if (scene === "intro" && 2 < intr && intr < 8) {
+		intro();
+	}
+
+};
+
+mouseReleased = function() {
+
+	if (scene === "load") {
+		if (W > 630 && 265 < mouseX && mouseX < 365 &&
+			410 < mouseY && mouseY < 510 && lod) {
+			inout = "in";
+			cuts = "start";
+			cutScene();
+		}
+	}
+	else
+	if (scene === "start") {
+		help1Bot.mouseClick();
+		playBot.mouseClick();
+		achvBot.mouseClick();
+		if (mouseX < 150 && 600 < mouseY) {
+			cred = 1; diff = false;
+			credits();
+		}
+		
+		if (diff) {
+			if (585 < mouseY && mouseY < 625) {
+				for (var h = 0; h < 23*23; h++) {squares.pop();}
+				var a = false;
+				if (160 < mouseX && mouseX < 230) {
+					grid=23;
+					a = true;
+				}
+				if (280 < mouseX&&mouseX < 350 &&!firstPlay){
+					grid=20;
+					a = true;
+				}
+				if (400 < mouseX&&mouseX < 470 &&!firstPlay){
+					grid=17;
+					a = true;
+				}
+				if (a) {
+					p = grid*2-2;
+					siz = 630/(grid-2);
+					step = siz/16;
+					catX = siz/2;
+					catY = 690-siz/2;
+					inout = "out";
+					cuts = "start";
+					X = 0; Y = 30;
+					for (var j = 0; j < grid; j++) {
+						for (var i = 0; i < grid; i++) {
+							squares.push(new Square({
+								x: siz * j,
+								y: 60 + siz * i
+							}));
+						}
+					}
+					squares[grid*2-2].aidVariable = 1;
+					squares[grid*(grid-2)+1].aidVariable = 1;
+					squares[grid*2-2].unClickable = true;
+					squares[grid*(grid-2)+1].unClickable = true;
+					cutScene();
+				}
+			}
+		}
+	}
+	else
+	if (scene === "credits") {
+		if (200 > mouseX || mouseX > 430 ||
+			200 > mouseY || mouseY > 500) {
+				cred = 2;
+				credits();
+		} else if (275 < mouseY && mouseY < 300) {
+			if (200 < mouseX && mouseX < 300 && hideMap) {
+				hideMap = false; image(off, 200, 275);
+			} else if (200 < mouseX && mouseX < 300) {
+				hideMap = true; image(on, 200, 275);
+			}
+			if (330 < mouseX && mouseX < 430 && showScore) {
+				showScore = false; image(off, 330, 275);
+			} else if (330 < mouseX && mouseX < 430) {
+				showScore = true; image(on, 330, 275);
+			}
+		}
+	}
+	else
+	if (scene === "help") {
+		backBot.mouseClick();
+		if (!themeLock && 550 < mouseY && mouseY < 650) {
+			var a = false;
+			if (20 < mouseX && mouseX < 120) {
+				theme = "none"; a = true;
+			} else if (140 < mouseX && mouseX < 240) {
+				theme = "rock"; a = true;
+			} else if (260 < mouseX && mouseX < 360) {
+				theme = "leaf"; a = true;
+			} else if (380 < mouseX && mouseX < 480) {
+				theme = "skin"; a = true;
+			} else if (500 < mouseX && mouseX < 600) {
+				theme = "mud"; a = true;
+			}
+			if (a) {
+				help();
+				if (rescene !== "start") {backBot.onClick();}
+			}
+		}
+	}
+	else
+	if (scene === "achv") {
+		if (showMyMap) {
+			achv();
+		} else
+		if (!showMyMap) {
+			backBot.mouseClick();
+			if (575 < mouseY && mouseY < 645) {
+				textAlign(CENTER, BASELINE);
+				if (achevs[6].lock === 1 && 25 < mouseX && mouseX < 205) {
+					if (mouseX < 95) {
+						if (achvClick[0] === 0) {
+							achvClick[0] = 1;
+						} else {
+							achvClick[0] = 0;
+						}
+					} else {
+						showMyMap = true;
+						background(180, 255, 180);
+						fill(0);
+						rect(0, 0, 630, 60);
+						fill(255);
+						textSize(30);
+						text("Click anywhere to exit", 315, 50);
+						image(myEasy, 0, 60);
+					}
+				} else
+				if (achevs[7].lock === 1 && 225 < mouseX && mouseX < 405) {
+					if (mouseX < 295) {
+						if (achvClick[1] === 0) {
+							achvClick[1] = 1;
+						} else {
+							achvClick[1] = 0;
+						}
+					} else {
+						showMyMap = true;
+						background(255, 255, 180);
+						fill(0);
+						rect(0, 0, 630, 60);
+						fill(255);
+						textSize(30);
+						text("Click anywhere to exit", 315, 50);
+						image(myMid, 0, 60);
+					}
+				} else
+				if (achevs[8].lock === 1 && 425 < mouseX && mouseX < 605) {
+					if (mouseX < 495) {
+						if (achvClick[2] === 0) {
+							achvClick[2] = 1;
+						} else {
+							achvClick[2] = 0;
+						}
+					} else {
+						showMyMap = true;
+						background(255, 180, 180);
+						fill(0);
+						rect(0, 0, 630, 60);
+						fill(255);
+						textSize(30);
+						text("Click anywhere to exit", 315, 50);
+						image(myHard, 0, 60);
+					}
+				}
+				textAlign(LEFT, BASELINE);
+			}
+		}
+	}
+	else
+	if (scene === "map" && mouseY > 60) {
+		if (!block) {
+			for (var k = 0; k < grid; k++) {
+				for (var o = 0; o < grid; o++) {
+					squares[o+k*grid].mouseClick();
+				}
+			}
+		}
+		if (block && mouseY > 60) {block = false; editMap();}
+		for (var k = grid; k < grid*(grid-1); k++) {
+			if (squares[k].aidVariable === 1 &&
+				squares[k].variable === 0) {
+					squares[k].variable = 1;
+					clicks++;
+				} else
+			if (squares[k].aidVariable === 0 &&
+				squares[k].variable === 1) {
+					squares[k].variable = 0;
+					clicks++;
+				}
+			if (clicks > 1500 && achevs[4].lock === 0)
+			{achevs[4].lock = 1;newAch = true; achScene = scene;}
+		}
+	}
+	else
+	if (scene === "map" || scene === "move" || scene === "pause") {
+		
+		if (block) {return;}
+		rescene = scene;
+		
+		if (10 < mouseY && mouseY < 50) {
+			if (25 <mouseX && mouseX< 65) {
+				inout = "in";
+				cuts = "charact";
+				X = 0;
+				cutScene();
+				return;
+			}
+			
+			else
+			if (110 < mouseX && mouseX < 145) {changeSpeed = 16;}
+			else
+			if (155 < mouseX && mouseX < 190) {changeSpeed = 8;}
+			else
+			if (200 < mouseX && mouseX < 235) {changeSpeed = 4;}
+			else
+			if (245 < mouseX && mouseX < 280 && scene === "move") {changeSpeed = 0;}
+			
+			else
+			if (325 < mouseX && mouseX < 365) {
+				if (scene === "move") {
+					scene = "pause";
+				}
+				else if (scene === "pause") {
+					scene = "move";
+				}
+				else {
+					check();
+				}
+			}
+			else
+			if (385 < mouseX && mouseX < 425) {editMap();}
+			else
+			if (445 < mouseX && mouseX < 485) {newMap();}
+			else
+			if (505 < mouseX && mouseX < 545) {
+				inout = "in";
+				cuts = "help";
+				X = 0;
+				cutScene();
+			}
+			else
+			if (565 < mouseX && mouseX < 605) {
+				inout = "in";
+				cuts = "start";
+				X = 0; Y = -348;
+				cutScene();
+			}
+			sittingsDraw();
+		}
+		
+	}
+	else
+	if (scene === "finish") {
+		if (565 < mouseX && mouseX < 605 && 10 < mouseY && mouseY < 50) {
+			inout = "in";
+			cuts = "end";
+			rescene = "map";
+			X=0;
+			cutScene();
+		}
+	}
+	else
+	if (scene === "charact") {
+		backBot.mouseClick();
+		
+		for (var i = 0; i < 10; i++) {
+			characts[i].mouseClick(i);
+		}
+	}
+	else
+	if (scene === "intro" && mouseY > 60) {
+		if (intr !== 8) {intro();} else {intr = 9;}
+	}
+	else
+	if (scene === "end") {
+		if (aniScore === score) {
+			edit2Bot.mouseClick();
+			new2Bot.mouseClick();
+			quit2Bot.mouseClick();
+		}
+	}
+	
+};				
+
+
+
+
+
+				}
+				if (typeof draw !== 'undefined') processing.draw = draw;
+			};
+			var canvas = document.getElementById("canvas");
+			var processing = new Processing(canvas, sketch);
+		</script>
+	</body>
+</html>

@@ -1,0 +1,699 @@
+<html>
+	<head>
+		<title>Trick the Cat</title>
+	</head>
+	<body>
+		<p align="center">
+			<canvas id="canvas" tabindex="0" width="630" height="690" style="image-rendering: -webkit-optimize-contrast !important;"></canvas>
+		</p>
+		<script src="https://cdn.jsdelivr.net/processing.js/1.4.8/processing.min.js"></script>
+		<script>
+			var sketch = function(processing) {
+				with (processing) {
+					size(630, 690);
+					frameRate(50);
+					angleMode = "radians";				
+
+
+
+
+
+/**************************************************
+**************** Table of Contents ****************
+***************************************************
+ 
+ ***** Brief *****
+ * GAME EDITING
+ * VARIABLES
+ * OBJECT ORIENTED
+ * FUNCTIONS
+ * MAIN PROGRAM
+
+ 
+ ********** Detailed **********
+
+ ** GAME EDITING
+    * ButtonGridX, ButtonGridY
+    * MainGridX, MainGridY
+    * leftGridX
+    * upperGridY 
+    * c1, c2, c3, ..c10
+    * upperText, leftText
+    * upperTextColor, leftTextColor
+
+ ** VARIABLES
+    * leftGridY
+    * upperGridX
+    * currentColor
+    * scal
+    * displaceX, displaceY
+    * hours, minutes, seconds
+    * isLineFilled
+    * buttons
+    * squares
+    * upperSquares
+    * leftSquares
+
+
+ ** OBJECT ORIENTED
+    * Buttons
+        * draw
+        * isMouseInside
+        * mouseClick
+    * Squares
+        * draw
+        * isMouseInside
+        * mouseClick
+        * upperText, leftText
+        * upperMouseClick, leftMouseClick
+        * upperstart, leftstart
+        * upperFillLine, leftFillLine
+
+ ** FUNCTIONS
+    * lineFilled
+    * fiveBorders
+    * moveORzoom
+    * timer
+    * start
+
+ ** MAIN PROGRAM
+    * mouseClicked
+    * mouseDragged
+    * mouseReleased
+    * keyPressed
+    * draw
+
+**************************************************/
+////////// More details at each section ///////////
+///////////////////////////////////////////////////
+
+
+
+/*************
+*GAME EDITING*
+**************
+welcome to section one, have you played the pic-a-pix? do you want to play another one? well.. you can creat any pic-a-pix you want by changing those varibles only (the variables in section one)
+*/
+
+var
+
+ButtonGridX = 4,
+ButtonGridY = 1,
+
+MainGridX = 20,
+MainGridY = 20,
+
+leftGridX = 10,
+upperGridY = 10,
+
+c1 = color(0, 160, 0),
+c2 = color(160, 103, 0),
+c3 = color(0, 0, 0),
+c4 = color(51, 152, 255),
+c5 = color(140, 100, 30),
+c6 = color(255, 0, 255),
+c7 = color(0, 0, 0),
+c8 = color(0, 255, 0),
+c9 = color(255, 0, 0),
+c10 = color(0, 0, 255),
+
+upperText = [
+0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0,
+0, 0, 0, 0, 1, 0, 1, 2, 2, 0, 0, 0, 0, 0, 0, 2, 1, 0, 0, 0,
+3, 2, 1, 4, 2, 1, 1, 1, 2, 0, 4, 0, 1, 1, 2, 2, 3, 1, 0, 3,
+2, 3, 3, 2, 1, 7, 5, 3, 6, 0, 1, 5, 2, 2, 2, 3, 1, 1, 3, 1,
+4, 1, 4, 1, 2, 1, 1, 3, 1, 3, 4, 2, 10, 6, 5, 1, 2, 1, 1, 3,
+1, 4, 1, 4, 1, 4, 1, 4, 1, 9, 1, 5, 2, 4, 1, 1, 4, 3, 4, 1,
+3, 3, 3, 3, 3, 3, 2, 2, 1, 3, 3, 3, 1, 1, 3, 1, 2, 3, 2, 1
+],
+leftText = [
+0, 0, 0, 0, 0, 0, 3, 1, 8, 6,
+0, 0, 0, 0, 0, 0, 2, 5, 8, 2,
+0, 0, 0, 0, 0, 1, 5, 2, 3, 4,
+0, 0, 0, 0, 0, 0, 4, 2, 2, 7,
+0, 0, 0, 0, 0, 0, 2, 4, 2, 9,
+0, 0, 0, 0, 0, 0, 0, 0, 0, 5,
+0, 0, 0, 0, 0, 0, 0, 0, 0, 6,
+0, 0, 0, 0, 0, 0, 0, 0, 5, 5,
+0, 0, 0, 0, 0, 0, 0, 5, 8, 2,
+0, 0, 0, 0, 0, 1, 1, 6, 4, 2,
+0, 0, 0, 0, 0, 1, 1, 3, 5, 2,
+0, 0, 0, 0, 1, 1, 1, 4, 1, 2,
+0, 0, 0, 0, 0, 0, 0, 5, 1, 2,
+0, 0, 0, 1, 1, 1, 1, 3, 1, 1,
+0, 0, 0, 0, 0, 0, 0, 9, 2, 3,
+0, 0, 0, 0, 1, 1, 1, 1, 2, 2,
+0, 0, 0, 0, 1, 1, 1, 1, 2, 1,
+0, 0, 0, 0, 13, 1, 2, 1, 1, 1,
+0, 0, 0, 0, 8, 4, 1, 1, 1, 3,
+0, 0, 0, 0, 0, 0, 6, 4, 1, 7
+],
+
+upperTextColor = [
+ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,c4, 0, 0, 0, 0,
+ 0, 0, 0, 0,c4, 0,c4,c4,c4, 0, 0, 0, 0, 0, 0,c4,c4, 0, 0, 0,
+c4,c4,c4,c3,c3,c4,c3,c3,c3, 0,c4, 0,c4,c4,c4,c3,c4,c4, 0,c4,
+c3,c3,c3,c3,c3,c3,c3,c3,c3, 0,c3,c4,c4,c4,c4,c3,c3,c4,c4,c4,
+c3,c3,c3,c3,c3,c3,c3,c3,c2,c4,c3,c3,c3,c3,c3,c1,c3,c4,c4,c3,
+c2,c2,c2,c2,c2,c2,c2,c2,c1,c3,c3,c3,c1,c3,c3,c3,c3,c3,c3,c1,
+c1,c1,c1,c1,c1,c1,c1,c1,c1,c1,c1,c1,c3,c1,c1,c1,c1,c1,c1,c1
+],
+leftTextColor = [
+0, 0, 0, 0, 0, 0,c4,c3,c4,c4,
+0, 0, 0, 0, 0, 0,c4,c3,c4,c4,
+0, 0, 0, 0, 0,c4,c3,c3,c4,c4,
+0, 0, 0, 0, 0, 0,c3,c3,c3,c4,
+0, 0, 0, 0, 0, 0,c3,c3,c3,c4,
+0, 0, 0, 0, 0, 0, 0, 0, 0,c3,
+0, 0, 0, 0, 0, 0, 0, 0, 0,c3,
+0, 0, 0, 0, 0, 0, 0, 0,c3,c3,
+0, 0, 0, 0, 0, 0, 0,c3,c3,c3,
+0, 0, 0, 0, 0,c3,c3,c3,c3,c3,
+0, 0, 0, 0, 0,c3,c3,c3,c3,c3,
+0, 0, 0, 0,c3,c3,c3,c3,c3,c3,
+0, 0, 0, 0, 0, 0, 0,c3,c3,c3,
+0, 0, 0,c2,c2,c2,c2,c3,c3,c3,
+0, 0, 0, 0, 0, 0, 0,c2,c3,c3,
+0, 0, 0, 0,c2,c2,c2,c2,c3,c3,
+0, 0, 0, 0,c2,c2,c2,c2,c3,c3,
+0, 0, 0, 0,c1,c3,c1,c3,c1,c1,
+0, 0, 0, 0,c1,c1,c3,c1,c3,c1,
+0, 0, 0, 0, 0, 0,c1,c1,c3,c1
+];
+
+
+/**********
+*VARIABLES*
+***********
+section two contains all the global variables in the code
+*/
+
+frameRate(1);
+
+var
+
+leftGridY = MainGridY,
+upperGridX = MainGridX,
+
+currentColor = 0,
+scal = 1,
+displaceX = 0,
+displaceY = 0,
+
+hours = 0,
+minutes = 0,
+seconds = 0,
+
+isLineFilled = false,
+
+buttons = [],
+squares = [],
+upperSquares = [],
+leftSquares = [];
+
+
+/****************
+*OBJECT ORIENTED*
+*****************
+section three contains all the objects in the code
+*/
+
+/**********Buttons**********/
+
+var Button = function(config){
+    this.x = config.x;
+    this.y = config.y;
+    this.backgroundColor = 255;
+    this.buttonColor = [c1, c2, c3, c4, c5,
+                    c6, c7, c8, c9, c10,];
+};
+
+Button.prototype.draw = function(l) {
+    fill(this.backgroundColor);
+    rect((displaceX+this.x)*scal, (displaceY+this.y)*scal, 40*scal, 40*scal);
+    fill(this.buttonColor[l]);
+    ellipse((displaceX+this.x+20)*scal, (displaceY+this.y+20)*scal, 30*scal, 30*scal);
+};
+
+Button.prototype.isMouseInside = function() {
+    return mouseX > (displaceX+this.x)*scal &&
+           mouseX < (displaceX+this.x + 40)*scal &&
+           mouseY > (displaceY+this.y)*scal &&
+           mouseY < (displaceY+this.y + 40)*scal;
+};
+Button.prototype.mouseClick = function(l) {
+    if (this.isMouseInside()) {
+        for (var i = 0; i < ButtonGridY*ButtonGridX; i++) {
+            buttons[i].backgroundColor = 255;
+            buttons[i].draw(i);
+        }
+        this.backgroundColor = 150;
+        currentColor = this.buttonColor[l];
+        this.draw(l);
+    }
+};
+
+
+/**********Squares**********/
+
+var Square = function(config){
+    this.x = config.x;
+    this.y = config.y;
+    this.width = 600/30;
+    this.height = 600/30;
+    this.color = 255;
+    this.textColor = 0;
+    this.vrblEnd = 0;
+    this.vrbl = 0;
+};
+
+Square.prototype.draw = function() {
+    fill(this.color);
+    rect((displaceX+this.x)*scal, (displaceY+this.y)*scal, this.width*scal, this.height*scal);
+    if (this.vrbl === 2) {
+        strokeWeight(4*scal);
+        point((displaceX+this.x+10)*scal, (displaceY+this.y+10)*scal);
+        strokeWeight(1);
+    }
+};
+
+Square.prototype.isMouseInside = function() {
+    return mouseX > (displaceX+this.x)*scal &&
+           mouseX < ((displaceX+this.x) + this.width)*scal &&
+           mouseY > (displaceY+this.y)*scal &&
+           mouseY < ((displaceY+this.y) + this.height)*scal;
+};
+Square.prototype.mouseClick = function() {
+    if (this.isMouseInside() && this.vrblEnd === 0) {
+        this.color = currentColor;
+        this.vrbl = 1;
+        this.draw();
+    } else
+    if (this.isMouseInside() && this.vrblEnd === 1) {
+        this.color = 255;
+        this.vrbl = 2;
+        this.draw();
+    } else
+    if (this.isMouseInside()) {
+        this.color = 255;
+        this.vrbl = 0;
+        this.draw();
+    }
+};
+
+
+Square.prototype.upperText = function(l) {
+    fill(this.textColor);
+    textSize(15*scal);
+    if(upperText[l] > 0) {
+        text(upperText[l], (displaceX+this.x+5)*scal, (displaceY+this.y+18)*scal);
+    }
+};
+Square.prototype.leftText = function(l) {
+    fill(this.textColor);
+    textSize(15*scal);
+    if(leftText[l] > 0) {
+        text(leftText[l], (displaceX+this.x+5)*scal, (displaceY+this.y+18)*scal);
+    }
+};
+
+Square.prototype.upperMouseClick = function(l) {
+    if (this.isMouseInside() && upperText[l] > 0 && this.vrbl === 0) {
+        this.color = upperTextColor[l];
+        this.textColor = 255;
+        this.vrbl = 1;
+        this.draw();
+        this.upperText(l);
+    } else
+    if (this.isMouseInside() && upperText[l] > 0) {
+        this.color = 255;
+        this.textColor = upperTextColor[l];
+        this.vrbl = 0;
+        this.draw();
+        this.upperText(l);
+    }
+};
+Square.prototype.leftMouseClick = function(l) {
+    if (this.isMouseInside() && leftText[l] > 0 && this.vrbl === 0) {
+        this.color = leftTextColor[l];
+        this.textColor = 255;
+        this.vrbl = 1;
+        this.draw();
+        this.leftText(l);
+    } else
+    if (this.isMouseInside() && leftText[l] > 0) {
+        this.color = 255;
+        this.textColor = leftTextColor[l];
+        this.vrbl = 0;
+        this.draw();
+        this.leftText(l);
+    }
+};
+
+Square.prototype.upperstart = function(l) {
+    if (upperText[l] > 0) {
+        this.color = upperTextColor[l];
+        this.draw();
+        this.textColor = 255;
+        this.vrbl = 1;
+        this.upperText(l);
+    } else {
+        this.draw();
+    }
+};
+Square.prototype.leftstart = function(l) {
+    if (leftText[l] > 0) {
+        this.color = leftTextColor[l];
+        this.draw();
+        this.textColor = 255;
+        this.vrbl = 1;
+        this.leftText(l);
+    } else {
+        this.draw();
+    }
+};
+
+Square.prototype.upperFillLine = function(l) {
+    if (this.isMouseInside()) {
+        for (var i = 0; i < upperGridY; i++) {
+                upperSquares[i][l].color = 255;
+                upperSquares[i][l].textColor = upperTextColor[upperGridX*i+l];
+                upperSquares[i][l].vrbl = 0;
+                upperSquares[i][l].draw();
+                upperSquares[i][l].upperText(upperGridX*i+l);
+        }
+        for (var i = 0; i < MainGridY; i++) {
+            if (squares[i][l].vrbl === 0) {
+                squares[i][l].color = 255;
+                squares[i][l].vrbl = 2;
+                squares[i][l].draw();
+            }
+        }
+    }
+};
+Square.prototype.leftFillLine = function(l) {
+    if (this.isMouseInside()) {
+        for (var i = 0; i < leftGridX; i++) {
+                leftSquares[l][i].color = 255;
+                leftSquares[l][i].textColor = leftTextColor[leftGridX*l+i];
+                leftSquares[l][i].vrbl = 0;
+                leftSquares[l][i].draw();
+                leftSquares[l][i].leftText(leftGridX*l+i);
+            }
+        for (var i = 0; i < MainGridX; i++) {
+            if (squares[l][i].vrbl === 0) {
+                squares[l][i].color = 255;
+                squares[l][i].vrbl = 2;
+                squares[l][i].draw();
+            }
+        }
+    }
+};
+
+
+/**********
+*FUNCTIONS*
+***********
+section four contains all the functions in the code
+*/
+
+var
+
+lineFilled = function() {
+    for (var j = 0; j < MainGridY; j++) {
+        isLineFilled = true;
+        for (var i = 0; i < MainGridX; i++) {
+            if (squares[j][i].vrbl === 0) {isLineFilled = false;}
+        }
+        if (isLineFilled) {
+            for (var i = 0; i < leftGridX; i++) {
+                leftSquares[j][i].color = 255;
+                leftSquares[j][i].textColor = leftTextColor[leftGridX*j+i];
+                leftSquares[j][i].vrbl = 0;
+                leftSquares[j][i].draw();
+                leftSquares[j][i].leftText(leftGridX*j+i);
+            }
+        }
+        
+    }
+    for (var j = 0; j < MainGridX; j++) {
+        isLineFilled = true;
+        for (var i = 0; i < MainGridY; i++) {
+            if (squares[i][j].vrbl === 0) {isLineFilled = false;}
+        }
+        if (isLineFilled) {
+            for (var i = 0; i < upperGridY; i++) {
+                upperSquares[i][j].color = 255;
+                upperSquares[i][j].textColor = upperTextColor[upperGridX*i+j];
+                upperSquares[i][j].vrbl = 0;
+                upperSquares[i][j].draw();
+                upperSquares[i][j].upperText(upperGridX*i+j);
+            }
+        }
+        
+    }
+},
+
+fiveBorders = function() {
+    for (var i = 0; i < MainGridX/5+1; i++) {
+        stroke(100);
+        fill(100);
+        rect((displaceX*scal)+(leftGridX+5*i)*(20*scal), displaceY*scal, 1.5*scal, (MainGridY+upperGridY)*(20*scal));
+        stroke(0);
+    }
+    for (var i = 0; i < MainGridY/5+1; i++) {
+        stroke(100);
+        fill(100);
+        rect(displaceX*scal, (displaceY*scal)+(upperGridY+5*i)*(20*scal), (MainGridX+leftGridX)*(20*scal), 1.5*scal);
+        stroke(0);
+    }
+},
+
+moveORzoom = function() {
+    background(255);
+    for (var i = 0; i < buttons.length; i++) {buttons[i].draw(i);}
+    
+    for (var j = 0; j < MainGridY; j++) {
+        for (var i = 0; i < MainGridX; i++) {
+            squares[j][i].draw();
+        }
+    }
+    
+    for (var j = 0; j < upperGridY; j++) {
+        for (var i = 0; i < upperGridX; i++) {
+            upperSquares[j][i].draw();
+            upperSquares[j][i].upperText(upperGridX*j+i);
+        }
+    }
+    
+    for (var j = 0; j < leftGridY; j++) {
+        for (var i = 0; i < leftGridX; i++) {
+            leftSquares[j][i].draw();
+            leftSquares[j][i].leftText(leftGridX*j+i);
+        }
+    }
+    
+    fiveBorders();
+},
+
+timer = function() {
+    seconds++;
+    if (seconds > 59) {minutes++; seconds=0;}
+    if (minutes > 59) {hours++; minutes=0;}
+    
+    fill(255);
+    noStroke();
+    rect(0,0,100,30);
+    fill(0);
+    textSize(15);
+    text(hours + " : " + minutes + " : " + seconds, 10, 20);
+    stroke(0);
+},
+
+start = function() {
+    
+    for (var i = 0; i < 200; i++) {
+        buttons.pop();
+        squares.pop();
+        upperSquares.pop();
+        leftSquares.pop();
+    }
+    
+    for (var j = 0; j < ButtonGridY; j++) {
+        for (var i = 0; i < ButtonGridX; i++) {
+            buttons.push(new Button({
+                x: -(40 * i) + 160,
+                y: -(40 * j) + 160
+            }));
+            buttons[i+j*ButtonGridX].draw(i+j*ButtonGridX);
+        }
+    }
+    
+    for (var j = 0; j < MainGridY; j++) {
+        squares.push([]);
+        for (var i = 0; i < MainGridX; i++) {
+            squares[j].push(new Square({
+                x: 600/30 * i + leftGridX*20,
+                y: 600/30 * j + upperGridY*20
+            }));
+            squares[j][i].draw();
+        }
+    }
+    
+    for (var j = 0; j < upperGridY; j++) {
+        upperSquares.push([]);
+        for (var i = 0; i < upperGridX; i++) {
+            upperSquares[j].push(new Square({
+                x: 600/30 * i + leftGridX*20,
+                y: 600/30 * j
+            }));
+            upperSquares[j][i].upperstart(upperGridX*j+i);
+        }
+    }
+    
+    for (var j = 0; j < leftGridY; j++) {
+        leftSquares.push([]);
+        for (var i = 0; i < leftGridX; i++) {
+            leftSquares[j].push(new Square({
+                x: 600/30 * i,
+                y: 600/30 * j + upperGridY*20
+            }));
+            leftSquares[j][i].leftstart(leftGridX*j+i);
+        }
+    }
+    
+    fiveBorders();
+    
+};
+
+
+/*************
+*MAIN PROGRAM*
+**************
+section five organize the functions and objects when an event occurs (like mouse clicking and keyboard pressing) 
+*/
+
+start();
+
+mouseClicked = function() {
+    
+    for (var k = 0; k < MainGridY; k++) {
+        for (var o = 0; o < MainGridX; o++) {
+            squares[k][o].mouseClick();
+        }
+    }
+    
+    for (var k = 0; k < upperGridX; k++) {
+        for (var o = 0; o < upperGridY; o++) {
+            upperSquares[o][k].upperMouseClick(k+o*upperGridX);
+        }
+        upperSquares[0][k].upperFillLine(k);
+    }
+    
+    for (var k = 0; k < leftGridY; k++) {
+        for (var o = 0; o < leftGridX; o++) {
+            leftSquares[k][o].leftMouseClick(o+k*leftGridX);
+        }
+        leftSquares[k][0].leftFillLine(k);
+    }
+    
+    for (var k = 0; k < ButtonGridY; k++) {
+        for (var o = 0; o < ButtonGridX; o++) {
+            buttons[o+k*ButtonGridX].mouseClick(o+k*ButtonGridX);
+        }
+    }
+    
+};
+
+mouseDragged = function() {
+
+    for (var k = 0; k < MainGridY; k++) {
+        for (var o = 0; o < MainGridX; o++) {
+            squares[k][o].mouseClick();
+        }
+    }
+
+};
+
+mouseReleased = function() {
+    
+    for (var j = 0; j < MainGridY; j++) {
+        for (var i = 0; i < MainGridX; i++) {
+            if (squares[j][i].vrbl === 0)
+                {squares[j][i].vrblEnd = 0;}
+            if (squares[j][i].vrbl === 1)
+                {squares[j][i].vrblEnd = 1;}
+            if (squares[j][i].vrbl === 2)
+                {squares[j][i].vrblEnd = 2;}
+        }
+    }
+    
+    if (mouseX > leftGridX*20*scal && mouseY > upperGridY*20*scal) {
+        lineFilled();
+    }
+    
+    fiveBorders();
+    
+};
+
+keyPressed = function () {
+    
+    if (keyCode === LEFT) {
+        displaceX += 10*(1/scal);
+        moveORzoom();
+    }
+    
+    if (keyCode === RIGHT) {
+        displaceX -= 10*(1/scal);
+        moveORzoom();
+    }
+    
+    if (keyCode === UP) {
+        displaceY += 10*(1/scal);
+        moveORzoom();
+    }
+    
+    if (keyCode === DOWN) {
+        displaceY -= 10*(1/scal);
+        moveORzoom();
+    }
+    
+    if (keyCode === 90) {
+        scal *= 0.8333333333;
+        moveORzoom();
+    }
+    
+    if (keyCode === 88) {
+        scal *= 1.2;
+        moveORzoom();
+    }
+    
+};
+
+draw = function() {
+    
+    timer();
+    
+};
+
+
+				
+
+
+
+
+
+				}
+				if (typeof draw !== 'undefined') processing.draw = draw;
+			};
+			var canvas = document.getElementById("canvas");
+			var processing = new Processing(canvas, sketch);
+		</script>
+	</body>
+</html>

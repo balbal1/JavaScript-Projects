@@ -1,0 +1,1 @@
+This is a popular puzzle game concept I recreated in this project, the objective is to fill the grid with the correct color as indicated in the top and left sections, and the finished puzzle shows a picture.
